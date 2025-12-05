@@ -7,21 +7,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class City {
-    private final List<CityDevice> devices = new ArrayList<>();
+    private final String name;
+    private final List<CityZone> zones = new ArrayList<>();
     private final List<CityEventListener> listeners = new ArrayList<>();
-    private CityThreadPool pool;
 
-    public void setThreadPool(CityThreadPool pool){
-        this.pool = pool;
+    public City(String name){
+        this.name = name;
     }
 
-    public CityThreadPool getThreadPool() {
-        return pool;
-    }
-
-    public void addDevice(CityDevice device) {
-        device.setCity(this);
-        devices.add(device);
+    public void addZone(CityZone zone) {
+        zones.add(zone);
     }
 
     public void addListener(CityEventListener listener) {
@@ -34,9 +29,11 @@ public class City {
         }
     }
 
-    public void startSimulation(){
-        for(CityDevice device : devices){
-            device.schedule(pool);
-        }
+    public List<CityZone> getZones() {
+        return zones;
+    }
+
+    public String getName() {
+        return name;
     }
 }

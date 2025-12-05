@@ -1,4 +1,5 @@
 import city.City;
+import city.CityController;
 import concurent.CityThreadPool;
 import devices.*;
 import factory.DeviceFactory;
@@ -64,7 +65,9 @@ public class Main {
         city.addDevice(bs1);
         city.addDevice(bs2);
 
-        city.startSimulation();
+        CityController controller = CityController.getInstance();
+        controller.startSimulation(city);
+
         Thread.sleep(120_000);
         pool.shutdown();
         System.out.println("Simulation stopped.");

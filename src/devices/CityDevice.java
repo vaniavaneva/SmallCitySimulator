@@ -1,7 +1,10 @@
 package devices;
 
 import city.City;
+import city.CityZone;
 import concurent.CityThreadPool;
+import devices.states.DeviceState;
+import devices.states.OperationalState;
 import factory.DeviceType;
 
 import java.util.concurrent.ScheduledFuture;
@@ -10,7 +13,8 @@ import java.util.concurrent.TimeUnit;
 public abstract class CityDevice {
     private final String id;
     protected DeviceType type;
-    private City city;
+    protected DeviceState state = new OperationalState();
+    private CityZone cityZone;
     protected volatile int intervalSeconds;
     protected ScheduledFuture<?> future;
 
@@ -29,15 +33,22 @@ public abstract class CityDevice {
         return id;
     }
 
-    public void setCity(City city) {
-        this.city = city;
+    public void setCityZone(CityZone cityZone) {
+        this.cityZone = cityZone;
     }
 
-    public City getCity(){
-        return city;
+    public CityZone getCityZone(){
+        return cityZone;
     }
 
-    protected void updateStatus(String message) {
+    public void setState(DeviceState state) {
+        this.state = state;
+    }
+    public DeviceState getState() {
+        return state;
+    }
+
+    public void updateStatus(String message) {
         if (city != null) {
             city.notifyListeners(this, message);
         }
