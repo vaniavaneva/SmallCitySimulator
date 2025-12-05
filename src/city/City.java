@@ -10,6 +10,7 @@ public class City {
     private final String name;
     private final List<CityZone> zones = new ArrayList<>();
     private final List<CityEventListener> listeners = new ArrayList<>();
+    private CityThreadPool pool;
 
     public City(String name){
         this.name = name;
@@ -35,5 +36,13 @@ public class City {
 
     public String getName() {
         return name;
+    }
+
+    public void setThreadPool(CityThreadPool pool){
+        this.pool = pool;
+    }
+
+    public CityThreadPool getThreadPool() {
+        return pool;
     }
 }
