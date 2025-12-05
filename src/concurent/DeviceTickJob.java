@@ -1,7 +1,6 @@
 package concurent;
 
 import devices.CityDevice;
-import devices.states.DeviceState;
 
 public class DeviceTickJob implements Runnable{
     private final CityDevice device;
@@ -12,10 +11,6 @@ public class DeviceTickJob implements Runnable{
 
     @Override
     public void run(){
-        if(device.getState().allowAction()){
-            device.performAction();
-        } else {
-            device.getState().handle(device);
-        }
+        device.performAction();
     }
 }
