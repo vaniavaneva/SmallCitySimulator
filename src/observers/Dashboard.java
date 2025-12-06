@@ -1,12 +1,12 @@
 package observers;
 
-import city.CityEventListener;
 import devices.CityDevice;
+import events.CityEventType;
 
 public class Dashboard implements CityEventListener {
     @Override
-    public void onStatus(CityDevice device, String message){
-        if (!message.toUpperCase().contains("ALERT")) {
+    public void onEvent(CityDevice device, CityEventType type, String message){
+        if (type != CityEventType.ALERT) {
             System.out.println("[DASHBOARD] " + device.getId() + ": " + message);
         }
     }

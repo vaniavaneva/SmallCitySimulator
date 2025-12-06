@@ -6,6 +6,7 @@ import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
 import city.*;
+import events.CityEventType;
 import factory.DeviceType;
 
 public class BikeStation extends CityDevice{
@@ -13,6 +14,12 @@ public class BikeStation extends CityDevice{
     private int capacity;
     private int chargers;
     private List<ScheduledFuture<?>> chargingSlots = new ArrayList<>();
+
+    private static final double RENT_PROBABILITY = 0.4;
+    private static final double RETURN_PROBABILITY = 0.4;
+    private static final double CHARGE_PROBABILITY = 0.2;
+    private static final int MIN_CHARGE_TIME_SEC = 20;
+    private static final int MAX_CHARGE_TIME_SEC = 30;
 
     public BikeStation(String id) {
         super(id, 7, DeviceType.BIKE_STATION);
@@ -33,7 +40,7 @@ public class BikeStation extends CityDevice{
         this.chargers = chargers;
     }
 
-    /*public int getBikesAvailable() {
+    public synchronized int getBikesAvailable() {
         return bikesAvailable;
     }
 
@@ -43,52 +50,69 @@ public class BikeStation extends CityDevice{
 
     public int getChargers(){
         return chargers;
-    }*/
+    }
 
     @Override
-    public void performAction() {
+    public synchronized void performAction() {
         double chance = Math.random(); //0-1
 
-        if(chance < 0.4){ //40% rent
+        if(chance < RENT_PROBABILITY){ //40% rent
             if(bikesAvailable > 0){
                 bikesAvailable--;
-                updateStatus("Bikes rented | Available: " + bikesAvailable);
+                getCity().notifyListeners(this, CityEventType.BIKE_RENTED,
+                        "Bike rented | Available: " + bikesAvailable);
             } else {
-                updateStatus("ALERT: No bikes available");
+                getCity().notifyListeners(this, CityEventType.ALERT, "No bikes available");
             }
-        } else if(chance < 0.8){ //40% return
+        } else if(chance < RENT_PROBABILITY + RETURN_PROBABILITY){ //40% return
             if(bikesAvailable < capacity){
                 bikesAvailable++;
-                updateStatus("Bike returned | Available: " + bikesAvailable);
+                getCity().notifyListeners(this, CityEventType.BIKE_RETURNED,
+                        "Bike returned | Available: " + bikesAvailable);
             } else {
-                updateStatus("ALERT: Station full, can't return bike");
+                getCity().notifyListeners(this, CityEventType.ALERT,
+                        "Station full, cannot return bike");
             }
         } else { //20% electric bike charging
             if(chargers > 0){
                 startCharging();
             } else{
-                updateStatus("ALERT: No chargers available");
+                getCity().notifyListeners(this, CityEventType.ALERT,
+                        "No chargers available");
             }
         }
 
         if(bikesAvailable <= 1){
-            updateStatus("ALERT: Bike levels low (" + bikesAvailable + ")");
+            getCity().notifyListeners(this, CityEventType.ALERT,
+                    "Bike levels low (" + bikesAvailable + ")");
         }
         if(chargers <= 1){
-            updateStatus("ALERT: Charger levels low (" + chargers + ")");
+            getCity().notifyListeners(this, CityEventType.ALERT,
+                    "Charger levels low (" + chargers + ")");
         }
     }
 
     private void startCharging(){
         chargers--;
-        int chargeTime = (int)(Math.random() * 11 + 20); //20-30
+        int chargeTime = (int)(Math.random() * (MAX_CHARGE_TIME_SEC - MIN_CHARGE_TIME_SEC + 1) + MIN_CHARGE_TIME_SEC); //20-30
 
-        updateStatus("Electric bike charging | ETC: " + chargeTime + "s");
+        getCity().notifyListeners(this, CityEventType.BIKE_CHARGING,
+                "Electric bike charging | ETC: " + chargeTime + "s");
 
         ScheduledFuture<?> future = getCity().getThreadPool().getScheduler().schedule(() -> {
             chargers++;
-            updateStatus("Charging complete. Chargers available: " + chargers);
+            getCity().notifyListeners(this, CityEventType.STATUS,
+                    "Charging complete. Chargers available: " + chargers);
         }, chargeTime, TimeUnit.SECONDS);
         chargingSlots.add(future);
+    }
+
+    public void cancelAllCharging() {
+        for(ScheduledFuture<?> future : chargingSlots) {
+            if(!future.isDone()) {
+                future.cancel(false);
+            }
+        }
+        chargingSlots.clear();
     }
 }

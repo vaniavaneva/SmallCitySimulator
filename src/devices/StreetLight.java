@@ -1,5 +1,6 @@
 package devices;
 
+import events.CityEventType;
 import factory.DeviceType;
 
 public class StreetLight extends CityDevice{
@@ -15,6 +16,7 @@ public class StreetLight extends CityDevice{
 
         boolean on = hour >= 20 || hour < 6;
 
-        updateStatus("Hour: " + hour + " | Light " + (on ? "ON" : "OFF"));
+        getCity().notifyListeners(this, CityEventType.STREET_LIGHT_CHANGE,
+                "Hour: " + hour + " | Light " + (on ? "ON" : "OFF"));
     }
 }

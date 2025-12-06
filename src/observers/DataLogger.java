@@ -1,7 +1,7 @@
 package observers;
 
-import city.CityEventListener;
 import devices.*;
+import events.CityEventType;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -11,7 +11,7 @@ import java.util.List;
 
 public class DataLogger implements CityEventListener {
     private final File logFile;
-
+    private boolean loggingEnabled = true;
     private List<String> alerts = new ArrayList<>();
 
     private int trafficLightChanges = 0;
@@ -28,28 +28,16 @@ public class DataLogger implements CityEventListener {
     }
 
     @Override
-    public void onStatus(CityDevice device, String message) {
-
-        if (message.toUpperCase().contains("ALERT")) {
-            alerts.add(device.getId() + " " + message);
-        }
-
-        if (device instanceof TrafficLight) {
-            trafficLightChanges++;
-
-        } else if (device instanceof StreetLight) {
-            streetLightTotalEvents++;
-
-            if (message.toUpperCase().contains("ON")) {
-                streetLightOnCount++;
-            }
-
-        }
-
-        if(device instanceof BikeStation){
-            if(message.toLowerCase().contains("rented")) timesBikesRented++;
-            else if(message.toLowerCase().contains("returned")) timesBikesReturned++;
-            else if(message.toLowerCase().contains("charging")) timesBikesCharged++;
+    public void onEvent(CityDevice device, CityEventType type, String message) {
+        switch(type) {
+            case ALERT -> alerts.add(device.getId() + " " + message);
+            case TRAFFIC_LIGHT_CHANGE -> trafficLightChanges++;
+            case STREET_LIGHT_CHANGE -> {
+                if(message.contains("ON")) streetLightOnCount++;
+                else streetLightTotalEvents++;}
+            case BIKE_RENTED -> timesBikesRented++;
+            case BIKE_RETURNED -> timesBikesReturned++;
+            case BIKE_CHARGING -> timesBikesCharged++;
         }
     }
 
@@ -73,7 +61,7 @@ public class DataLogger implements CityEventListener {
             try {
                 f.createNewFile();
             } catch (IOException e) {
-                e.printStackTrace();
+                System.err.println("File doesn't exist: " + e.getMessage());
             }
         }
         return f;
@@ -83,15 +71,17 @@ public class DataLogger implements CityEventListener {
         try (FileWriter fw = new FileWriter(logFile, false)) { // false = overwrite
             fw.write("");
         } catch (IOException e) {
-            e.printStackTrace();
+            System.err.println("Failed to clear file: " + e.getMessage());
         }
     }
 
     private void write(String text) {
+        if(!loggingEnabled) return;
         try (FileWriter fw = new FileWriter(logFile, true)) {
             fw.write(text);
         } catch (IOException e) {
-            e.printStackTrace();
+            System.err.println("Logging disabled due to error: " + e.getMessage());
+            loggingEnabled = false;
         }
     }
 }

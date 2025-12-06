@@ -1,9 +1,11 @@
 package devices;
 
+import events.CityEventType;
 import factory.DeviceType;
 import strategies.air.AirAnalysisStrategy;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class AirSensor extends CityDevice{
     private double pm25;
@@ -17,7 +19,7 @@ public class AirSensor extends CityDevice{
     }
 
     public void setStrategy(AirAnalysisStrategy strategy) {
-        this.strategy = strategy;
+        this.strategy = Objects.requireNonNull(strategy, "Strategy cannot be null");
     }
 
     @Override
@@ -31,9 +33,10 @@ public class AirSensor extends CityDevice{
 
         double quality = strategy.analyzeQuality(history);
         if(quality > 55){
-            updateStatus("ALERT: Poor air quality. PM2.5=" + String.format("%.2f", pm25));
+            getCity().notifyListeners(this, CityEventType.ALERT,
+                    "Poor air quality PM2.5=" + String.format("%.2f", pm25));
         } else {
-            updateStatus("Air OK: " + String.format("%.2f", pm25));
+            getCity().notifyListeners(this, CityEventType.STATUS,"Air OK: " + String.format("%.2f", pm25));
         }
     }
 }

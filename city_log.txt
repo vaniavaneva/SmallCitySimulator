@@ -1,56 +1,70 @@
 All traffic lights changed 30 times.
 
-Street lights were ON for 38,46% of the simulation.
+Street lights were ON for 62,50% of the simulation.
 
-Bikes were rented 15 times.
+Bikes were rented 11 times.
 
-Bikes were returned 8 times.
+Bikes were returned 12 times.
 
 Bikes were charged 8 times.
 
-Alerts occurred: 45
-	AS-01 ALERT: Poor air quality. PM2.5=59,54
-	BS-02 ALERT: Station full, can't return bike
-	AS-02 ALERT: Poor air quality. PM2.5=53,20
-	BS-02 ALERT: Station full, can't return bike
-	AS-02 ALERT: Poor air quality. PM2.5=66,02
-	AS-02 ALERT: Poor air quality. PM2.5=35,72
-	AS-02 ALERT: Poor air quality. PM2.5=61,62
-	AS-02 ALERT: Poor air quality. PM2.5=47,64
-	AS-02 ALERT: Poor air quality. PM2.5=49,71
-	AS-02 ALERT: Poor air quality. PM2.5=33,89
-	AS-02 ALERT: Poor air quality. PM2.5=61,15
-	AS-02 ALERT: Poor air quality. PM2.5=20,70
-	AS-02 ALERT: Poor air quality. PM2.5=45,45
-	AS-02 ALERT: Poor air quality. PM2.5=43,78
-	AS-02 ALERT: Poor air quality. PM2.5=38,86
-	BS-02 ALERT: Bike levels low (1)
-	BS-01 ALERT: Charger levels low (1)
-	AS-02 ALERT: Poor air quality. PM2.5=55,58
-	AS-02 ALERT: Poor air quality. PM2.5=53,72
-	BS-02 ALERT: Bike levels low (0)
-	BS-01 ALERT: Charger levels low (0)
-	AS-02 ALERT: Poor air quality. PM2.5=22,04
-	BS-01 ALERT: Charger levels low (0)
-	BS-02 ALERT: Bike levels low (0)
-	BS-02 ALERT: Charger levels low (1)
-	AS-02 ALERT: Poor air quality. PM2.5=28,56
-	AS-02 ALERT: Poor air quality. PM2.5=73,74
-	BS-01 ALERT: Charger levels low (0)
-	BS-02 ALERT: No bikes available
-	BS-02 ALERT: Bike levels low (0)
-	BS-02 ALERT: Charger levels low (1)
-	AS-02 ALERT: Poor air quality. PM2.5=69,90
-	BS-02 ALERT: No bikes available
-	BS-02 ALERT: Bike levels low (0)
-	BS-01 ALERT: Charger levels low (1)
-	AS-02 ALERT: Poor air quality. PM2.5=25,95
-	BS-02 ALERT: No bikes available
-	BS-02 ALERT: Bike levels low (0)
-	AS-02 ALERT: Poor air quality. PM2.5=39,46
-	AS-02 ALERT: Poor air quality. PM2.5=31,32
-	BS-02 ALERT: No bikes available
-	BS-02 ALERT: Bike levels low (0)
-	AS-02 ALERT: Poor air quality. PM2.5=66,35
-	BS-02 ALERT: No bikes available
-	BS-02 ALERT: Bike levels low (0)
+Alerts occurred: 59
+	AS-02 Poor air quality PM2.5=66,85
+	AS-01 Poor air quality PM2.5=79,28
+	BS-02 Station full, cannot return bike
+	AS-02 Poor air quality PM2.5=22,98
+	AS-01 Poor air quality PM2.5=49,52
+	AS-01 Poor air quality PM2.5=75,37
+	AS-02 Poor air quality PM2.5=57,08
+	AS-01 Poor air quality PM2.5=71,42
+	AS-02 Poor air quality PM2.5=42,67
+	BS-01 Charger levels low (1)
+	AS-01 Poor air quality PM2.5=79,20
+	AS-02 Poor air quality PM2.5=22,50
+	BS-01 Charger levels low (1)
+	AS-01 Poor air quality PM2.5=20,15
+	AS-02 Poor air quality PM2.5=29,63
+	AS-02 Poor air quality PM2.5=27,59
+	AS-01 Poor air quality PM2.5=62,66
+	BS-01 Charger levels low (1)
+	AS-01 Poor air quality PM2.5=72,48
+	AS-02 Poor air quality PM2.5=67,06
+	BS-01 Charger levels low (0)
+	AS-01 Poor air quality PM2.5=53,72
+	AS-02 Poor air quality PM2.5=59,79
+	BS-01 Charger levels low (1)
+	BS-02 Bike levels low (1)
+	AS-01 Poor air quality PM2.5=32,75
+	AS-02 Poor air quality PM2.5=71,85
+	AS-02 Poor air quality PM2.5=57,78
+	BS-01 Charger levels low (1)
+	BS-02 Bike levels low (1)
+	AS-02 Poor air quality PM2.5=66,28
+	BS-02 Bike levels low (0)
+	AS-02 Poor air quality PM2.5=21,53
+	AS-02 Poor air quality PM2.5=28,81
+	BS-01 Charger levels low (1)
+	BS-02 Bike levels low (1)
+	AS-02 Poor air quality PM2.5=65,13
+	BS-01 Station full, cannot return bike
+	BS-01 Charger levels low (1)
+	AS-02 Poor air quality PM2.5=73,51
+	BS-02 Bike levels low (1)
+	BS-01 Charger levels low (1)
+	AS-02 Poor air quality PM2.5=31,35
+	AS-02 Poor air quality PM2.5=26,02
+	BS-01 Charger levels low (1)
+	BS-02 Bike levels low (0)
+	AS-02 Poor air quality PM2.5=69,41
+	BS-02 Bike levels low (0)
+	BS-01 Charger levels low (1)
+	AS-02 Poor air quality PM2.5=65,79
+	AS-02 Poor air quality PM2.5=78,63
+	BS-01 Charger levels low (1)
+	BS-02 No bikes available
+	BS-02 Bike levels low (0)
+	AS-02 Poor air quality PM2.5=25,94
+	BS-02 Bike levels low (1)
+	BS-01 Charger levels low (1)
+	AS-02 Poor air quality PM2.5=63,62
+	BS-01 Charger levels low (0)

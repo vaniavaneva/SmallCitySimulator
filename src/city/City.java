@@ -2,13 +2,16 @@ package city;
 
 import concurent.CityThreadPool;
 import devices.CityDevice;
+import events.CityEventType;
+import observers.CityEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class City {
     private final List<CityDevice> devices = new ArrayList<>();
-    private final List<CityEventListener> listeners = new ArrayList<>();
+    private final List<CityEventListener> listeners = new CopyOnWriteArrayList<>();
     private CityThreadPool pool;
 
     public void setThreadPool(CityThreadPool pool){
@@ -24,13 +27,23 @@ public class City {
         devices.add(device);
     }
 
+    public List<CityDevice> getAllDevices() {
+        return new ArrayList<>(devices);
+    }
+
     public void addListener(CityEventListener listener) {
         listeners.add(listener);
     }
 
-    public void notifyListeners(CityDevice device, String message) {
+    /*public void notifyListeners(CityDevice device, String message) {
         for (CityEventListener listener : listeners) {
             listener.onStatus(device, message);
+        }
+    }*/
+
+    public void notifyListeners(CityDevice device, CityEventType type, String message) {
+        for (CityEventListener listener : listeners) {
+            listener.onEvent(device, type, message);
         }
     }
 

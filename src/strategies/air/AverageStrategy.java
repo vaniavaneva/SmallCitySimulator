@@ -6,7 +6,7 @@ import java.util.Objects;
 public class AverageStrategy implements AirAnalysisStrategy{
     @Override
     public double analyzeQuality(List<Double> measurements) {
-        if(measurements.isEmpty() || Objects.isNull(measurements)) return 0;
+        if(Objects.isNull(measurements) || measurements.isEmpty()) return 0;
 
         double weightedSum = 0;
         double totalWeight = 0;

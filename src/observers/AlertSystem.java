@@ -1,14 +1,13 @@
 package observers;
 
-import city.CityEventListener;
 import devices.CityDevice;
+import events.CityEventType;
 
 public class AlertSystem implements CityEventListener{
-
     @Override
-    public void onStatus(CityDevice device, String message) {
-        if (message.toUpperCase().contains("ALERT")) {
-            System.out.println("[ALERT] " + device.getId() + " " + message);
+    public void onEvent(CityDevice device, CityEventType type, String message) {
+        if (type == CityEventType.ALERT) {
+            System.out.println("[ALERT] ⚠\uFE0F " + device.getId() + " " + message);
         }
     }
 }

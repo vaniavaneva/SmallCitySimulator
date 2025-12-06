@@ -36,7 +36,7 @@ public class AdaptiveTrafficStrategy implements TrafficStrategy{
 
     @Override
     public int computeGreenTime(String state) {
-        if (state.equals("YELLOW \uD83D\uDFE1")) return 1;
+        if (state.equals("YELLOW")) return 1;
 
         int current = getCurrentVehicleCount();
         double weightedCount = calculateWeightedVehicleCount(current);

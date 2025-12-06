@@ -10,6 +10,9 @@ import strategies.traffic.AdaptiveTrafficStrategy;
 import strategies.traffic.FixedCycleStrategy;
 
 public class Main {
+
+    private static final int SIMULATION_DURATION_MS = 120_000;
+
     public static void main(String[] args) throws InterruptedException {
         City city = new City();
 
@@ -65,7 +68,15 @@ public class Main {
         city.addDevice(bs2);
 
         city.startSimulation();
-        Thread.sleep(120_000);
+        Thread.sleep(SIMULATION_DURATION_MS);
+
+        for(CityDevice device : city.getAllDevices()) {
+            device.stop();
+            if(device instanceof BikeStation) {
+                ((BikeStation)device).cancelAllCharging();
+            }
+        }
+
         pool.shutdown();
         System.out.println("Simulation stopped.");
         logger.saveInfo();

@@ -2,6 +2,8 @@ package devices;
 
 import city.City;
 import concurent.CityThreadPool;
+import concurent.DeviceTickJob;
+import events.CityEventType;
 import factory.DeviceType;
 
 import java.util.concurrent.ScheduledFuture;
@@ -21,9 +23,9 @@ public abstract class CityDevice {
         this.intervalSeconds = intervalSeconds;
     }
 
-    /*public int getIntervalSeconds() {
+    public int getIntervalSeconds() {
         return intervalSeconds;
-    }*/
+    }
 
     public String getId(){
         return id;
@@ -39,15 +41,24 @@ public abstract class CityDevice {
 
     protected void updateStatus(String message) {
         if (city != null) {
-            city.notifyListeners(this, message);
+            city.notifyListeners(this, CityEventType.STATUS, message);
+        }
+    }
+
+    public void stop() {
+        if(future != null && !future.isCancelled()) {
+            future.cancel(false);
         }
     }
 
     public void schedule(CityThreadPool pool){
-        future = pool.getScheduler().schedule(() -> {
-            performAction();
-            schedule(pool);
-        }, intervalSeconds, TimeUnit.SECONDS);
+        DeviceTickJob job = new DeviceTickJob(this);
+        future = pool.getScheduler().scheduleAtFixedRate(
+                job,
+                0,
+                intervalSeconds,
+                TimeUnit.SECONDS
+        );
     }
 
     public abstract void performAction();
