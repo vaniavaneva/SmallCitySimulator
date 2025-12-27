@@ -2,6 +2,7 @@ package observers;
 
 import devices.*;
 import events.CityEventType;
+import util.LoggerFactory;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -11,8 +12,7 @@ import java.util.List;
 import java.util.logging.Logger;
 
 public class DataLogger implements CityEventListener {
-    private static final Logger logger = Logger.getLogger(DataLogger.class.getName());
-
+    private static final Logger logger = LoggerFactory.getLogger("DATALOGGER");
     private final File logFile;
     private boolean loggingEnabled = true;
     private List<String> alerts = new ArrayList<>();

@@ -8,17 +8,17 @@ import strategies.air.AverageStrategy;
 import strategies.air.PeakDetectionStrategy;
 import strategies.traffic.AdaptiveTrafficStrategy;
 import strategies.traffic.FixedCycleStrategy;
-import resources.*;
+import util.ConfigLoader;
+import util.LoggerFactory;
 
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 
 public class Main {
 
-    private static final Logger logger = Logger.getLogger(Main.class.getName());
+    private static final Logger logger = LoggerFactory.getLogger("MAIN");
 
     public static void main(String[] args) throws InterruptedException {
-
         int simulationDuration = ConfigLoader.getInt("simulation.duration");
 
         int threadPoolSize = ConfigLoader.getInt("thread.pool.size");

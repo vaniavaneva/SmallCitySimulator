@@ -2,7 +2,7 @@ package devices;
 
 import events.CityEventType;
 import factory.DeviceType;
-import resources.ConfigLoader;
+import util.ConfigLoader;
 import strategies.air.AirAnalysisStrategy;
 import java.util.ArrayList;
 import java.util.List;

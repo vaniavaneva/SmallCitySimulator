@@ -2,13 +2,13 @@ package concurent;
 
 import devices.CityDevice;
 import events.CityEventType;
+import util.LoggerFactory;
 
 import java.util.Objects;
 import java.util.logging.Logger;
 
 public class DeviceTickJob implements Runnable{
-    private static final Logger logger =
-            Logger.getLogger(DeviceTickJob.class.getName());
+    private static final Logger logger = LoggerFactory.getLogger("DEVICETICKJOB");
     private final CityDevice device;
 
     public DeviceTickJob(CityDevice device){
