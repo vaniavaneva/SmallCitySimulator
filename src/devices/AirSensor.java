@@ -2,6 +2,7 @@ package devices;
 
 import events.CityEventType;
 import factory.DeviceType;
+import resources.ConfigLoader;
 import strategies.air.AirAnalysisStrategy;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +12,8 @@ public class AirSensor extends CityDevice{
     private double pm25;
     private AirAnalysisStrategy strategy;
     private List<Double> history = new ArrayList<>();
-    private final int MAX_HISTORY = 100;
+    private final int MAX_HISTORY = ConfigLoader.getInt("max.history");
+    private static final double AIR_QUALITY_THRESHOLD = ConfigLoader.getDouble("air.quality.threshold");
 
 
     public AirSensor(String id){
@@ -32,7 +34,7 @@ public class AirSensor extends CityDevice{
         }
 
         double quality = strategy.analyzeQuality(history);
-        if(quality > 55){
+        if(quality > AIR_QUALITY_THRESHOLD){
             getCity().notifyListeners(this, CityEventType.ALERT,
                     "Poor air quality PM2.5=" + String.format("%.2f", pm25));
         } else {

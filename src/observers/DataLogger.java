@@ -8,8 +8,11 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 public class DataLogger implements CityEventListener {
+    private static final Logger logger = Logger.getLogger(DataLogger.class.getName());
+
     private final File logFile;
     private boolean loggingEnabled = true;
     private List<String> alerts = new ArrayList<>();
@@ -61,7 +64,7 @@ public class DataLogger implements CityEventListener {
             try {
                 f.createNewFile();
             } catch (IOException e) {
-                System.err.println("File doesn't exist: " + e.getMessage());
+                logger.severe("File doesn't exist: " + e.getMessage());
             }
         }
         return f;
@@ -71,7 +74,7 @@ public class DataLogger implements CityEventListener {
         try (FileWriter fw = new FileWriter(logFile, false)) { // false = overwrite
             fw.write("");
         } catch (IOException e) {
-            System.err.println("Failed to clear file: " + e.getMessage());
+            logger.severe("Failed to clear file: " + e.getMessage());
         }
     }
 
@@ -80,7 +83,7 @@ public class DataLogger implements CityEventListener {
         try (FileWriter fw = new FileWriter(logFile, true)) {
             fw.write(text);
         } catch (IOException e) {
-            System.err.println("Logging disabled due to error: " + e.getMessage());
+            logger.severe("Logging disabled due to error: " + e.getMessage());
             loggingEnabled = false;
         }
     }

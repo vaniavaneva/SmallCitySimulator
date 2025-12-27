@@ -4,8 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
-
-import city.*;
+import resources.ConfigLoader;
 import events.CityEventType;
 import factory.DeviceType;
 
@@ -15,11 +14,10 @@ public class BikeStation extends CityDevice{
     private int chargers;
     private List<ScheduledFuture<?>> chargingSlots = new ArrayList<>();
 
-    private static final double RENT_PROBABILITY = 0.4;
-    private static final double RETURN_PROBABILITY = 0.4;
-    private static final double CHARGE_PROBABILITY = 0.2;
-    private static final int MIN_CHARGE_TIME_SEC = 20;
-    private static final int MAX_CHARGE_TIME_SEC = 30;
+    private static final double RENT_PROBABILITY = ConfigLoader.getDouble("bike.rent.probability");
+    private static final double RETURN_PROBABILITY = ConfigLoader.getDouble("bike.rent.probability");
+    private static final int MIN_CHARGE_TIME_SEC = ConfigLoader.getInt("min.charge");
+    private static final int MAX_CHARGE_TIME_SEC = ConfigLoader.getInt("max.charge");
 
     public BikeStation(String id) {
         super(id, 7, DeviceType.BIKE_STATION);

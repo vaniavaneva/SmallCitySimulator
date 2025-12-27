@@ -8,21 +8,30 @@ import strategies.air.AverageStrategy;
 import strategies.air.PeakDetectionStrategy;
 import strategies.traffic.AdaptiveTrafficStrategy;
 import strategies.traffic.FixedCycleStrategy;
+import resources.*;
+
+import java.util.concurrent.TimeUnit;
+import java.util.logging.Logger;
 
 public class Main {
 
-    private static final int SIMULATION_DURATION_MS = 120_000;
+    private static final Logger logger = Logger.getLogger(Main.class.getName());
 
     public static void main(String[] args) throws InterruptedException {
+
+        int simulationDuration = ConfigLoader.getInt("simulation.duration");
+
+        int threadPoolSize = ConfigLoader.getInt("thread.pool.size");
+
         City city = new City();
 
-        CityThreadPool pool = new CityThreadPool(4);
+        CityThreadPool pool = new CityThreadPool(threadPoolSize);
         city.setThreadPool(pool);
 
         city.addListener(new Dashboard());
         city.addListener(new AlertSystem());
-        DataLogger logger = new DataLogger("city_log.txt");
-        city.addListener(logger);
+        DataLogger dataLogger = new DataLogger("city_log.txt");
+        city.addListener(dataLogger);
 
         TrafficLight tl1 = (TrafficLight) DeviceFactory.createDevice(DeviceType.TRAFFIC_LIGHT, "TL-01");
         tl1.setStrategy(new AdaptiveTrafficStrategy(5, 15, 2, 4));
@@ -68,7 +77,7 @@ public class Main {
         city.addDevice(bs2);
 
         city.startSimulation();
-        Thread.sleep(SIMULATION_DURATION_MS);
+        Thread.sleep(simulationDuration);
 
         for(CityDevice device : city.getAllDevices()) {
             device.stop();
@@ -78,7 +87,11 @@ public class Main {
         }
 
         pool.shutdown();
-        System.out.println("Simulation stopped.");
-        logger.saveInfo();
+        pool.awaitTermination(30, TimeUnit.SECONDS);
+        if(!pool.isTerminated()) {
+            pool.shutdownNow();
+        }
+        logger.info("Simulation stopped.");
+        dataLogger.saveInfo();
     }
 }
